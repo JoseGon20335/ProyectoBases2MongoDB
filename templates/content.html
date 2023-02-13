@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
   
-{% block title %}Manejo de Productos{% endblock %}
+{% block title %}Manejo de peliculas{% endblock %}
 
 {% block content %}
     <div class="section">
@@ -41,21 +41,21 @@
             <div class="col-lg-12">
                 <div class="pagination">
                     {% if page > 1 %}
-                        <a class="button" href="{{ url_for('productos', page=page - 1) }}">Página Anterior</a>
+                        <a class="button" href="{{ url_for('content', page=page - 1) }}">Página Anterior</a>
                     {% else %}
                         <div></div>
                     {% endif %}
                     <div class="pagination_numbers">
                     {% if page > 1 %}
-                        <a href="{{ url_for('productos', page=page - 1) }}">{{ page - 1}}</a>
+                        <a href="{{ url_for('content', page=page - 1) }}">{{ page - 1}}</a>
                     {% endif %}
                         <strong>{{page}}</strong>
                     {% if (page * products_per_page) < total_products %}    
-                        <a href="{{ url_for('productos', page=page + 1) }}">{{ page + 1}}</a>
+                        <a href="{{ url_for('content', page=page + 1) }}">{{ page + 1}}</a>
                     {% endif %}
                     </div>
                     {% if (page * products_per_page) < total_products %}
-                        <a class="button" href="{{ url_for('productos', page=page + 1) }}">Siguiente Página</a>
+                        <a class="button" href="{{ url_for('content', page=page + 1) }}">Siguiente Página</a>
                     {% else %}
                         <div></div>
                     {% endif %}
