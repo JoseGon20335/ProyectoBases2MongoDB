@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+  
+{% block title %}Actualizar Producto{% endblock %}
+
+{% block content %}
+    <div class="section">
+        <div class="row d-flex justify-content-center text-center">
+            <div class="col-lg-6">
+                <!-- templates/add_product.html -->
+                <h1>Actualizar pelicula</h1>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <ul class="messages">
+                {% for message in messages %}
+                    <li class="alert">{{ message }}</li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+                <form action="/actualizarPeliculas/{{producto.id}}" method="post" class="forms my-4 text-left-label text-center-a" autocomplete="off">
+                    <input type="text" name="Title" placeholder="Title" required>
+                    <input type="text" name="WorldwideGross" placeholder="WorldwideGross" type="number">
+                    <input type="text" name="USGross" placeholder="USGross" type="number">
+                    <input type="text" name="ProductionBudget" placeholder="ProductionBudget" type="number">
+                    <input type="text" name="ReleaseDate" placeholder="ReleaseDate">
+                    <input type="text" name="MPAARating" placeholder="MPAARating">
+                    <input type="text" name="IMDBVotes" placeholder="IMDBVotes" type="number">
+                    <input type="text" name="IMDBRating" placeholder="IMDBRating" type="number">
+                    <input type="text" name="Director" placeholder="Director" >
+                    <input type="text" name="Distributor" placeholder="Distributor">
+                    <button class="button" type="submit">Actualizar</button>      
+                </form>
+                <a class="button" href="{{ url_for('content', page=1) }}">Regresar</a>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
