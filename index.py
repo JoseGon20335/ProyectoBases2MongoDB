@@ -109,8 +109,7 @@ def actualizarPeliculaTitle():
     )
 
 
-# UPDATE PRODUCTO
-@app.route("/actualizarPeliculas/<String:Title>", methods=["GET", "POST"])
+@app.route("/actualizarPeliculas/<Title>", methods=["GET", "POST"])
 def actualizarPeliculas(Title):
 
     movies = db.movies
@@ -166,7 +165,7 @@ def borrarPeliculaResul():
     )
 
 
-@app.route("/borrarPelicula/<String:Title>")  # BORRAR PRODUCTO
+@app.route("/borrarPelicula/<Title>")  # BORRAR PRODUCTO
 def borrarPelicula(Title):
     movie = db.movies
     movie.delete_one({"Title": Title})
