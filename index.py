@@ -3,6 +3,7 @@ from pymongo import MongoClient
 import random
 import logging
 import urllib.parse
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 app.secret_key = "llave_secreta"
@@ -145,6 +146,45 @@ def actualizarPeliculas(Title):
         flash("Pelicula actualizada con exito!")
     return render_template(
         "actualizarPeliculasForm.html",
+        movie=movie,
+    )
+
+
+@app.route("/actualizarPeliculas/<id>", methods=["GET", "POST"])
+def updatePelicula(id):
+
+    movies = db.movies
+    movie = movies.find_one({"_id": ObjectId(id)})
+
+    if request.method == "POST":
+        Title = request.form.get("Title")
+        WorldwideGross = request.form.get("Worldwide Gross")
+        USGross = request.form.get("US Gross")
+        ProductionBudget = request.form.get("Production Budget")
+        ReleaseDate = request.form.get("Release Date")
+        MPAARating = request.form.get("MPAA Rating")
+        IMDBVotes = request.form.get("IMDB Votes")
+        IMDBRating = request.form.get("IMDB Rating")
+        Director = request.form.get("Director")
+        Distributor = request.form.get("Distributor")
+        filter = {"_id": ObjectId(id)}
+        update = {
+            "$set": {
+                "Title": Title,
+                "Worldwide Gross": WorldwideGross,
+                "US Gross": USGross,
+                "Production Budget": ProductionBudget,
+                "Release Date": ReleaseDate,
+                "MPAA Rating": MPAARating,
+                "Distributor": Distributor,
+                "Director": Director,
+                "IMDB Rating": IMDBRating,
+                "IMDB Votes": IMDBVotes,
+            }
+        }
+        movies.update_one(filter, update)
+    return render_template(
+        "updatePelicula.html",
         movie=movie,
     )
 
