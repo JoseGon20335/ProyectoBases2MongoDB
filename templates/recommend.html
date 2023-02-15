@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Recommend Movies</title>
+  </head>
+  <body>
+    <h1>Recommend Movies</h1>
+    <form method="POST" action="/recommend">
+      <label for="topic">Choose a topic:</label>
+      <select id="topic" name="topic">
+        <option value="director">Director</option>
+        <option value="distributor">Distributor</option>
+        <option value="genre">Genre</option>
+        <option value="mpaa_rating">MPAA Rating</option>
+      </select>
+      <br>
+      <label for="field">Choose a field:</label>
+      <br>
+      <input type="radio" id="field" name="field" value="count(*)" checked>
+      <label for="count(*)">Count</label><br>
+      <input type="radio" id="field" name="field" value="avg(rating)">
+      <label for="avg(rating)">Average Rating</label><br>
+      <input type="radio" id="field" name="field" value="max(rating)">
+      <label for="max(rating)">Maximum Rating</label><br>
+      <input type="radio" id="field" name="field" value="min(rating)">
+      <label for="min(rating)">Minimum Rating</label><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

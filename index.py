@@ -20,6 +20,9 @@ except Exception as e:
     print("Error connecting to the database:", e)
 
 db = client.get_database("moviesDB")
+movies = db["movies"]
+series = db["series"]
+episodes = db["episodes"]
 
 
 @app.route("/")  # INDEX
@@ -225,5 +228,49 @@ def search():
     return render_template("search_results.html", query=query, results=results)
 
 
+
+@app.route('/series_recommendations')
+def series_recommendations():
+    return render_template('series_recommendations.html')
+
+@app.route('/series_results', methods=['POST'])
+def series_results():
+    selected_option = request.form['option']
+    selected_field = request.form['field']
+    
+    if selected_option == 'rating':
+        pipeline = [
+            {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
+            {'$lookup': {'from': 'series', 'localField': '_id', 'foreignField': '_id', 'as': 'show'}},
+            {'$unwind': '$show'},
+            {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
+            {'$sort': {'averageRating': -1}}
+        ]
+    elif selected_option == 'visualizations':
+        pipeline = [
+            {'$group': {'_id': '$show_id', 'averageVisualizations': {'$avg': '$visualizations'}}},
+            {'$lookup': {'from': 'series', 'localField': '_id', 'foreignField': '_id', 'as': 'show'}},
+            {'$unwind': '$show'},
+            {'$project': {'_id': 0, 'title': '$show.title', 'averageVisualizations': 1}},
+            {'$sort': {'averageVisualizations': -1}}
+        ]
+    elif selected_option == 'mpaa':
+        pipeline = [
+            {'$match': {'MPAA Rating': selected_field}},
+            {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
+            {'$lookup': {'from': 'series', 'localField': '_id', 'foreignField': '_id', 'as': 'show'}},
+            {'$unwind': '$show'},
+            {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
+            {'$sort': {'averageRating': -1}}
+        ]
+    
+    results = list(episodes.aggregate(pipeline))
+    
+    return render_template('series_results.html', results=results)
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
+
+

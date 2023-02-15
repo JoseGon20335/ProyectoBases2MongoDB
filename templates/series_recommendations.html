@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Series Recommendations</title>
+  </head>
+  <body>
+    <h1>Series Recommendations</h1>
+
+    <h2>Sort by rating:</h2>
+    <ul>
+      {% for series in rating_sorted %}
+        <li>{{ series.title }} ({{ series.averageRating }})</li>
+      {% endfor %}
+    </ul>
+
+    <h2>Sort by number of visualizations:</h2>
+    <ul>
+      {% for series in visualization_sorted %}
+        <li>{{ series.title }} ({{ series.averageVisualizations }})</li>
+      {% endfor %}
+    </ul>
+
+    <h2>Sort by MPAA rating (TV-14):</h2>
+    <ul>
+      {% for series in mpaa_sorted %}
+        <li>{{ series.title }} ({{ series.averageRating }})</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

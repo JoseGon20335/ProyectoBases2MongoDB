@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Series Results</title>
+</head>
+<body>
+	<h1>Series Results</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Average Rating</th>
+				<th>Average Visualizations</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for result in results %}
+				<tr>
+					<td>{{ result.title }}</td>
+					<td>{{ result.average_rating }}</td>
+					<td>{{ result.average_visualizations }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</body>
+</html>

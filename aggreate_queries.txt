@@ -1,0 +1,42 @@
+
+# QUERIES
+
+# sort series by rating: 
+# db.episodes.aggregate([ { $group: { _id: "$show_id", averageRating: { $avg: "$rating" } } }, { $lookup: { from: "series", localField: "_id", foreignField: "_id", as: "show" } }, { $unwind: "$show" }, { $project: { _id: 0, title: "$show.title", averageRating: 1 } }, { $sort: { averageRating: -1 } } ])
+
+# sort seies by number of visualizations:
+# db.episodes.aggregate([ { $group: { _id: "$show_id", averageVisualizations: { $avg: "$visualizations" } } }, { $lookup: { from: "series", localField: "_id", foreignField: "_id", as: "show" } }, { $unwind: "$show" }, { $project: { _id: 0, title: "$show.title", averageVisualizations: 1 } }, { $sort: { averageVisualizations: -1 } } ])
+
+# sort movies by rating:
+# db.movies.aggregate([ { $group: { _id: "$Title", averageRating: { $avg: "$IMDB Rating" } } }, { $project: { _id: 0, title: "$_id", averageRating: 1 } }, { $sort: { averageRating: -1 } } ])
+
+# recommend movies by its director, sorted by rating:
+# db.movies.aggregate([ { $match: { Director: "Steven Spielberg" } }, { $group: { _id: "$Title", averageRating: { $avg: "$IMDB Rating" } } }, { $project: { _id: 0, title: "$_id", averageRating: 1 } }, { $sort: { averageRating: -1 } } ])
+# sólo se tiene que cambiar el director por el que se quiera buscar
+# now by worldwide gross:
+# db.movies.aggregate([ { $match: { Director: "Steven Spielberg" } }, { $group: { _id: "$Title", averageRating: { $avg: "$Worldwide Gross" } } }, { $project: { _id: 0, title: "$_id", averageRating: 1 } }, { $sort: { averageRating: -1 } } ])
+
+
+# recommend movies by its distributor, sorted by rating:
+# db.movies.aggregate([ { $match: { Distributor: "Universal Pictures" } }, { $group: { _id: "$Title", averageRating: { $avg: "$IMDB Rating" } } }, { $project: { _id: 0, title: "$_id", averageRating: 1 } }, { $sort: { averageRating: -1 } } ])
+# sólo se tiene que cambiar el distribuidor por el que se quiera buscar
+# now by worldwide gross:
+# db.movies.aggregate([ { $match: { Distributor: "Universal Pictures" } }, { $group: { _id: "$Title", averageRating: { $avg: "$Worldwide Gross" } } }, { $project: { _id: 0, title: "$_id", averageRating: 1 } }, { $sort: { averageRating: -1 } } ])
+
+# recommend movies by its genre, sorted by rating: 
+# db.movies.aggregate([ { $match: { Genre: "Action" } }, { $group: { _id: "$Title", averageRating: { $avg: "$IMDB Rating" } } }, { $project: { _id: 0, title: "$_id", averageRating: 1 } }, { $sort: { averageRating: -1 } } ])
+# sólo se tiene que cambiar el género por el que se quiera buscar
+# now by worldwide gross:
+# db.movies.aggregate([ { $match: { Genre: "Action" } }, { $group: { _id: "$Title", averageRating: { $avg: "$Worldwide Gross" } } }, { $project: { _id: 0, title: "$_id", averageRating: 1 } }, { $sort: { averageRating: -1 } } ])
+
+# recommend movies by its mpaa rating, sorted by rating:
+# db.movies.aggregate([ { $match: { "MPAA Rating": "PG-13" } }, { $group: { _id: "$Title", averageRating: { $avg: "$IMDB Rating" } } }, { $project: { _id: 0, title: "$_id", averageRating: 1 } }, { $sort: { averageRating: -1 } } ])
+# sólo se tiene que cambiar la clasificación por la que se quiera buscar
+# now by worldwide gross:
+# db.movies.aggregate([ { $match: { "MPAA Rating": "PG-13" } }, { $group: { _id: "$Title", averageRating: { $avg: "$Worldwide Gross" } } }, { $project: { _id: 0, title: "$_id", averageRating: 1 } }, { $sort: { averageRating: -1 } } ])
+
+# recommend series by its mpaa rating, sorted by rating:
+# db.episodes.aggregate([ { $match: { "MPAA Rating": "TV-14" } }, { $group: { _id: "$show_id", averageRating: { $avg: "$rating" } } }, { $lookup: { from: "series", localField: "_id", foreignField: "_id", as: "show" } }, { $unwind: "$show" }, { $project: { _id: 0, title: "$show.title", averageRating: 1 } }, { $sort: { averageRating: -1 } } ])
+# sólo se tiene que cambiar la clasificación por la que se quiera buscar
+# now by number of visualizations:
+# db.episodes.aggregate([ { $match: { "MPAA Rating": "TV-14" } }, { $group: { _id: "$show_id", averageVisualizations: { $avg: "$visualizations" } } }, { $lookup: { from: "series", localField: "_id", foreignField: "_id", as: "show" } }, { $unwind: "$show" }, { $project: { _id: 0, title: "$show.title", averageVisualizations: 1 } }, { $sort: { averageVisualizations: -1 } } ])
