@@ -9,8 +9,11 @@
                 {% for movies in moviesData %}
                     <div class="col-lg-3 col-sm-6 my-4">
                         <div class="cuadro-movies">
-                            <h3>{{movies.Title}}</h3>
-                            <a class="button" href="{{ url_for('pelicula', id=movies._id) }}">INFO</a>
+                            <a class="button" href="{{ url_for('search', filtro='rating') }}">rating</a>
+                            <a class="button" href="{{ url_for('search', filtro='director') }}">director</a>
+                            <a class="button" href="{{ url_for('search', filtro='distributor') }}">distributor</a>
+                            <a class="button" href="{{ url_for('search', filtro='genre') }}">genre</a>
+                            <a class="button" href="{{ url_for('search', filtro='mpaa') }}">mpaa</a>
                         </div>
                     </div>
                 {% endfor %}
