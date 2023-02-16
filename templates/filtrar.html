@@ -6,17 +6,15 @@
     <div class="tabcontent">
         <div class="section"> 
             <div class="row my-4">
-                {% for movies in moviesData %}
-                    <div class="col-lg-3 col-sm-6 my-4">
-                        <div class="cuadro-movies">
-                            <a class="button" href="{{ url_for('search', filtro='rating') }}">rating</a>
-                            <a class="button" href="{{ url_for('search', filtro='director') }}">director</a>
-                            <a class="button" href="{{ url_for('search', filtro='distributor') }}">distributor</a>
-                            <a class="button" href="{{ url_for('search', filtro='genre') }}">genre</a>
-                            <a class="button" href="{{ url_for('search', filtro='mpaa') }}">mpaa</a>
-                        </div>
+                <div class="col-lg-3 col-sm-6 my-4">
+                    <div class="cuadro-movies">
+                        <a class="button" href="{{ url_for('search', filtro='rating') }}">rating</a>
+                        <a class="button" href="{{ url_for('search', filtro='director') }}">director</a>
+                        <a class="button" href="{{ url_for('search', filtro='distributor') }}">distributor</a>
+                        <a class="button" href="{{ url_for('search', filtro='genre') }}">genre</a>
+                        <a class="button" href="{{ url_for('search', filtro='mpaa') }}">mpaa</a>
                     </div>
-                {% endfor %}
+                </div>
             </div>
         </div>
     </div>
