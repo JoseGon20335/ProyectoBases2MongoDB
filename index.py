@@ -168,7 +168,7 @@ def search(filtro):
         )
     else:
         results = []
-    return render_template("search_results.html", query=query, results=results)
+    return render_template("search_results.html", results=results)
 
 
 @app.route("/content/<int:page>")
