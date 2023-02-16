@@ -8,12 +8,12 @@
             <div class="col-lg-6">
                 <div class="col-lg-3 col-sm-6 my-4">
                     <div>
-                        <h1>{{movies.Title}}</h1>
+                        <h1>{{movieData.Title}}</h1>
                     </div>
                 </div>
                 <a class="button" href="{{ url_for('index') }}">Regresar</a>
-                <a class="button" href="{{ url_for('content') }}">Actualizar</a>
-                <a class="button" href="{{ url_for('content') }}">Borrar+</a>
+                <a class="button" href="{{ url_for('updatePelicula', id=movieData._id) }}">Actualizar</a>
+                <a class="button" href="{{ url_for('borrarPelicula', id=movieData._id) }}">Borrar</a>
 
             </div>
         </div>

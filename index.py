@@ -25,7 +25,7 @@ series = db["series"]
 episodes = db["episodes"]
 
 
-@app.route("/")  # INDEX
+@app.route("/")
 def index():
     movies = db.movies
     moviesData = movies.find()
@@ -33,6 +33,107 @@ def index():
     return render_template(
         "index.html",
         moviesData=moviesData,
+    )
+
+
+@app.route("/pelicula/<id>")
+def pelicula(id):
+    movies = db.movies
+    movieData = movies.find_one({"_id": ObjectId(id)})
+
+    return render_template(
+        "pelicula_select.html",
+        movieData=movieData,
+    )
+
+
+@app.route("/update_pelicula/<id>", methods=["GET", "POST"])
+def updatePelicula(id):
+
+    movies = db.movies
+    movie = movies.find_one({"_id": ObjectId(id)})
+
+    if request.method == "POST":
+        Title = request.form.get("Title")
+        WorldwideGross = request.form.get("Worldwide Gross")
+        USGross = request.form.get("US Gross")
+        ProductionBudget = request.form.get("Production Budget")
+        ReleaseDate = request.form.get("Release Date")
+        MPAARating = request.form.get("MPAA Rating")
+        IMDBVotes = request.form.get("IMDB Votes")
+        IMDBRating = request.form.get("IMDB Rating")
+        Director = request.form.get("Director")
+        Distributor = request.form.get("Distributor")
+        update = {
+            "$set": {
+                "Title": Title,
+                "Worldwide Gross": WorldwideGross,
+                "US Gross": USGross,
+                "Production Budget": ProductionBudget,
+                "Release Date": ReleaseDate,
+                "MPAA Rating": MPAARating,
+                "Distributor": Distributor,
+                "Director": Director,
+                "IMDB Rating": IMDBRating,
+                "IMDB Votes": IMDBVotes,
+            }
+        }
+        movies.update_one({"_id": ObjectId(id)}, update)
+        return redirect(url_for("index"))
+    return render_template(
+        "update_pelicula.html",
+        movie=movie,
+    )
+
+
+@app.route("/borrar_pelicula/<id>")
+def borrarPelicula(id):
+    movie = db.movies
+    movie.delete_one({"_id": ObjectId(id)})
+    flash("Pelicula borrada con éxito!")
+    return redirect(url_for("index"))
+
+
+@app.route("/add_pelicula", methods=["GET", "POST"])
+def addPelicula():
+
+    movies = db.movies
+    moviesData = movies.find()
+
+    if request.method == "POST":
+        Title = request.form.get("Title")
+        WorldwideGross = request.form.get("Worldwide Gross")
+        USGross = request.form.get("US Gross")
+        ProductionBudget = request.form.get("Production Budget")
+        ReleaseDate = request.form.get("Release Date")
+        MPAARating = request.form.get("MPAA Rating")
+        IMDBVotes = request.form.get("IMDB Votes")
+        IMDBRating = request.form.get("IMDB Rating")
+        Director = request.form.get("Director")
+        Distributor = request.form.get("Distributor")
+        inserts = {
+            "Title": Title,
+            "Worldwide Gross": WorldwideGross,
+            "US Gross": USGross,
+            "Production Budget": ProductionBudget,
+            "Release Date": ReleaseDate,
+            "MPAA Rating": MPAARating,
+            "Distributor": Distributor,
+            "Director": Director,
+            "IMDB Rating": IMDBRating,
+            "IMDB Votes": IMDBVotes,
+        }
+        movies.insert_one(inserts)
+        return redirect(url_for("index"))
+    return render_template(
+        "agregar_pelicula.html"
+    )
+
+
+@app.route("/filtrar")
+def filtrarTipo():
+    return render_template(
+        "filtrar.html"
     )
 
 
@@ -94,7 +195,7 @@ def agregarPeliculaForm():
         flash("Pelicula agregada con éxito!")
         return redirect(url_for("agregarPeliculaForm"))
     return render_template(
-        "agregarPeliculaForm.html"
+        "agregar_pelicula.html"
     )
 
 
@@ -153,46 +254,7 @@ def actualizarPeliculas(Title):
     )
 
 
-@app.route("/actualizarPeliculas/<id>", methods=["GET", "POST"])
-def updatePelicula(id):
-
-    movies = db.movies
-    movie = movies.find_one({"_id": ObjectId(id)})
-
-    if request.method == "POST":
-        Title = request.form.get("Title")
-        WorldwideGross = request.form.get("Worldwide Gross")
-        USGross = request.form.get("US Gross")
-        ProductionBudget = request.form.get("Production Budget")
-        ReleaseDate = request.form.get("Release Date")
-        MPAARating = request.form.get("MPAA Rating")
-        IMDBVotes = request.form.get("IMDB Votes")
-        IMDBRating = request.form.get("IMDB Rating")
-        Director = request.form.get("Director")
-        Distributor = request.form.get("Distributor")
-        filter = {"_id": ObjectId(id)}
-        update = {
-            "$set": {
-                "Title": Title,
-                "Worldwide Gross": WorldwideGross,
-                "US Gross": USGross,
-                "Production Budget": ProductionBudget,
-                "Release Date": ReleaseDate,
-                "MPAA Rating": MPAARating,
-                "Distributor": Distributor,
-                "Director": Director,
-                "IMDB Rating": IMDBRating,
-                "IMDB Votes": IMDBVotes,
-            }
-        }
-        movies.update_one(filter, update)
-    return render_template(
-        "updatePelicula.html",
-        movie=movie,
-    )
-
-
-@app.route("/borrarPeliculaResul")  # PRE BORRAR PRODUCTO
+@app.route("/borrarPeliculaResul")
 def borrarPeliculaResul():
     movies = db.movies
 
@@ -206,14 +268,6 @@ def borrarPeliculaResul():
     return render_template(
         "borrarPeliculaResul.html", query=query, results=results, moviesData=moviesData
     )
-
-
-@app.route("/borrarPelicula/<Title>")  # BORRAR PRODUCTO
-def borrarPelicula(Title):
-    movie = db.movies
-    movie.delete_one({"Title": Title})
-    flash("Pelicula borrada con éxito!")
-    return redirect(url_for("borrarPeliculaResul"))
 
 
 @app.route("/search")  # SEARCH BAR

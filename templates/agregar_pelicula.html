@@ -6,8 +6,8 @@
     <div class="section">
         <div class="row d-flex justify-content-center text-center">
             <div class="col-lg-6">
-                <h1>Actualizar pelicula</h1>
-                <form action="/agregarPelicula" method="post" class="forms my-4" autocomplete="off">
+                <h1>Añadir pelicula</h1>
+                <form action="/add_pelicula" method="post" class="forms my-4" autocomplete="off">
                     <input type="text" name="Title" placeholder="Title" required>
                     <input type="text" name="WorldwideGross" placeholder="WorldwideGross" type="number">
                     <input type="text" name="USGross" placeholder="USGross" type="number">
@@ -18,9 +18,9 @@
                     <input type="text" name="IMDBRating" placeholder="IMDBRating" type="number">
                     <input type="text" name="Director" placeholder="Director" >
                     <input type="text" name="Distributor" placeholder="Distributor">
-                    <button class="button" type="submit">Actualizar</button>      
+                    <input type="submit" value="Add Movie">     
                 </form>
-                <a class="button" href="{{ url_for('content', page=1) }}">Regresar</a>
+                <a class="button" href="{{ url_for('index') }}">Regresar</a>
 
             </div>
         </div>
