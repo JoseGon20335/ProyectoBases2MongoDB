@@ -138,37 +138,28 @@ def filtrarTipo():
 
 
 @app.route("/filtrar/<filtro>")
-def search(filtro):
-    collection = db.movies
-    query = request.args.get("q")
+def search(filtro, value):
+    movies = db.movies
     if filtro == 'rating':
-        results = collection.find(
-            {"Title": {"_id": "$Title", "averageRating": {"$avg": "$IMDB Rating"}}}, {"$project": {
-                "_id": 0, "title": "$_id", "averageRating": 1}}, {"$sort": {"averageRating": -1}}
+        return render_template(
+            "search_results.html",
+            moviesData=results,
+            filterName=filtro
         )
-    if filtro == 'director':
-        results = collection.find(
-            {"Title": {"_id": "$Title", "averageRating": {"$avg": "$IMDB Rating"}}}, {"$project": {
-                "_id": 0, "title": "$_id", "averageRating": 1}}, {"$sort": {"averageRating": -1}}
+    if filtro == 'titulo':
+        return render_template(
+            "search_results.html",
+            moviesData=results,
+            filterName=filtro
         )
-    if filtro == 'distributor':
-        results = collection.find(
-            {"Title": {"_id": "$Title", "averageRating": {"$avg": "$IMDB Rating"}}}, {"$project": {
-                "_id": 0, "title": "$_id", "averageRating": 1}}, {"$sort": {"averageRating": -1}}
-        )
-    if filtro == 'genre':
-        results = collection.find(
-            {"Title": {"_id": "$Title", "averageRating": {"$avg": "$IMDB Rating"}}}, {"$project": {
-                "_id": 0, "title": "$_id", "averageRating": 1}}, {"$sort": {"averageRating": -1}}
-        )
-    if filtro == 'mpaa':
-        results = collection.find(
-            {"Title": {"_id": "$Title", "averageRating": {"$avg": "$IMDB Rating"}}}, {"$project": {
-                "_id": 0, "title": "$_id", "averageRating": 1}}, {"$sort": {"averageRating": -1}}
-        )
-    else:
-        results = []
-    return render_template("search_results.html", results=results)
+
+    results = movies.find()
+
+    return render_template(
+        "search_results.html",
+        moviesData=results,
+        filterName=filtro
+    )
 
 
 @app.route('/series_recommendations')
