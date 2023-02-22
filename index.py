@@ -64,11 +64,15 @@ def updatePelicula(id):
         IMDBRating = request.form.get("IMDB Rating")
         Director = request.form.get("Director")
         Distributor = request.form.get("Distributor")
+        MajorGenre = request.form.get("Major Genre")
+        GenerosTxt = request.form.get("Generos")
+        Generos = GenerosTxt.split(",")
         update = {
             "$set": {
                 "Title": Title,
                 "Worldwide Gross": WorldwideGross,
                 "US Gross": USGross,
+                "Major Genre": MajorGenre,
                 "Production Budget": ProductionBudget,
                 "Release Date": ReleaseDate,
                 "MPAA Rating": MPAARating,
@@ -76,6 +80,7 @@ def updatePelicula(id):
                 "Director": Director,
                 "IMDB Rating": IMDBRating,
                 "IMDB Votes": IMDBVotes,
+                "Genres": Generos,
             }
         }
         movies.update_one({"_id": ObjectId(id)}, update)
@@ -112,7 +117,7 @@ def addPelicula():
         Director = request.form.get("Director")
         Distributor = request.form.get("Distributor")
         MajorGenre = request.form.get("Major Genre")
-        GenerosTxt = request.form.getlist("Generos")
+        GenerosTxt = request.form.get("Generos")
         Generos = GenerosTxt.split(",")
         inserts = {
             "Title": Title,
