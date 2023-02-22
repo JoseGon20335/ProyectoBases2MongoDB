@@ -112,7 +112,8 @@ def addPelicula():
         Director = request.form.get("Director")
         Distributor = request.form.get("Distributor")
         MajorGenre = request.form.get("Major Genre")
-        Generos = request.form.getlist("Generos")
+        GenerosTxt = request.form.getlist("Generos")
+        Generos = GenerosTxt.split(",")
         inserts = {
             "Title": Title,
             "Worldwide Gross": WorldwideGross,
@@ -273,11 +274,61 @@ def search_results_rating():
                            )
 
 
+# @app.route('/series_recommendations', methods=["GET", "POST"])
+# def series_recommendations():
+#     selected_option = request.form['recommendation_type']
+#     selected_field = request.form['field']
+#     series = db.series
+#     if request.method == "POST":
+#         if selected_option == 'rating':
+#             pipeline = [
+#                 {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
+#                 {'$lookup': {'from': 'series', 'localField': '_id',
+#                              'foreignField': '_id', 'as': 'show'}},
+#                 {'$unwind': '$show'},
+#                 {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
+#                 {'$sort': {'averageRating': -1}}
+#             ]
+#         elif selected_option == 'visualizations':
+#             pipeline = [
+#                 {'$group': {'_id': '$show_id', 'averageVisualizations': {
+#                     '$avg': '$visualizations'}}},
+#                 {'$lookup': {'from': 'series', 'localField': '_id',
+#                              'foreignField': '_id', 'as': 'show'}},
+#                 {'$unwind': '$show'},
+#                 {'$project': {'_id': 0, 'title': '$show.title',
+#                               'averageVisualizations': 1}},
+#                 {'$sort': {'averageVisualizations': -1}}
+#             ]
+#         elif selected_option == 'mpaa':
+#             pipeline = [
+#                 {'$match': {'MPAA Rating': selected_field}},
+#                 {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
+#                 {'$lookup': {'from': 'series', 'localField': '_id',
+#                              'foreignField': '_id', 'as': 'show'}},
+#                 {'$unwind': '$show'},
+#                 {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
+#                 {'$sort': {'averageRating': -1}}
+#             ]
+#     else:
+#         pipeline = [
+#             {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
+#             {'$lookup': {'from': 'series', 'localField': '_id',
+#                          'foreignField': '_id', 'as': 'show'}},
+#             {'$unwind': '$show'},
+#             {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
+#             {'$sort': {'averageRating': -1}}
+#         ]
+#     results = list(series.aggregate(pipeline))
+
+#     return render_template('series_recommendations.html', results=results)
+
 @app.route('/series_recommendations', methods=["GET", "POST"])
 def series_recommendations():
-    selected_option = request.form['option']
-    selected_field = request.form['field']
-    if request.method == "POST":
+    selected_option = request.args.get('recommendation_type')
+    selected_field = request.args.get('field')
+    series = db.series
+    if selected_option:
         if selected_option == 'rating':
             pipeline = [
                 {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
@@ -317,7 +368,7 @@ def series_recommendations():
             {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
             {'$sort': {'averageRating': -1}}
         ]
-    results = list(episodes.aggregate(pipeline))
+    results = list(series.aggregate(pipeline))
 
     return render_template('series_recommendations.html', results=results)
 

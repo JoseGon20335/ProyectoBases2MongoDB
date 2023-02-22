@@ -5,7 +5,7 @@
   </head>
   <body>
     <h1>Series Recommendations</h1>
-    <form action="{{ url_for('series_results') }}" method="get">
+    <form action="/series_recommendations" method="get">
       <label for="recommendation_type">Choose a recommendation type:</label>
       <select id="recommendation_type" name="recommendation_type">
         <option value="rating">By rating</option>
@@ -35,8 +35,8 @@
         {% for result in results %}
           <tr>
             <td>{{ result.title }}</td>
-            <td>{{ result.average_rating }}</td>
-            <td>{{ result.average_visualizations }}</td>
+            <td>{{ result.averageRating }}</td>
+            <td>{{ result.averageVisualizations }}</td>
           </tr>
         {% endfor %}
       </tbody>
