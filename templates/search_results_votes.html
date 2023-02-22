@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+  
+{% block title %}Resultados de Búsqueda{% endblock %}
+
+{% block content %}
+    <div class="section"> 
+        <div class="row">
+            {% for movies in results %}
+            <div class="col-lg-3 col-sm-6 my-4">
+                <div class="cuadro-movies">
+                    <h3>{{movies.Title}}</h3>
+                    <a class="button" href="{{ url_for('pelicula', id=movies._id) }}">INFO</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

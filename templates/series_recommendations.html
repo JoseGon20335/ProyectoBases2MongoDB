@@ -22,5 +22,24 @@
       <br><br>
       <input type="submit" value="Get Recommendations">
     </form>
+    <h1>Series Results</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Average Rating</th>
+          <th>Average Visualizations</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+          <tr>
+            <td>{{ result.title }}</td>
+            <td>{{ result.average_rating }}</td>
+            <td>{{ result.average_visualizations }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </body>
 </html>

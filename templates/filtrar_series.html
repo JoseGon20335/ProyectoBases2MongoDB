@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+  
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+    <div class="tabcontent">
+        <div class="section"> 
+            <div class="row my-4">
+                <div class="col-lg-3 col-sm-6 my-4">
+                    <div class="cuadro-movies">
+                        <a class="button" href="{{ url_for('series_recommendations', filtro='rating') }}">Rating</a>
+                    </div>
+                    <div class="cuadro-movies">
+                        <a class="button" href="{{ url_for('series_recommendations', filtro='visualizations') }}">Visualizations</a>
+                    </div>
+                    <div class="cuadro-movies">
+                        <a class="button" href="{{ url_for('series_recommendations', filtro='mpaa') }}">Mpaa</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

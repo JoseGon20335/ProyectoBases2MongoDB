@@ -111,10 +111,13 @@ def addPelicula():
         IMDBRating = request.form.get("IMDB Rating")
         Director = request.form.get("Director")
         Distributor = request.form.get("Distributor")
+        MajorGenre = request.form.get("Major Genre")
+        Generos = request.form.getlist("Generos")
         inserts = {
             "Title": Title,
             "Worldwide Gross": WorldwideGross,
             "US Gross": USGross,
+            "Major Genre": MajorGenre,
             "Production Budget": ProductionBudget,
             "Release Date": ReleaseDate,
             "MPAA Rating": MPAARating,
@@ -122,6 +125,7 @@ def addPelicula():
             "Director": Director,
             "IMDB Rating": IMDBRating,
             "IMDB Votes": IMDBVotes,
+            "Genres": Generos,
         }
         movies.insert_one(inserts)
         return redirect(url_for("index"))
@@ -130,49 +134,181 @@ def addPelicula():
     )
 
 
-@app.route("/filtrar")
-def filtrarTipo():
-    return render_template(
-        "filtrar.html"
-    )
-
-
 @app.route("/filtrar/<filtro>")
-def search(filtro, value):
+def filtrar(filtro):
     movies = db.movies
-    if filtro == 'rating':
+    if filtro == 'ratingGenre':
+        return redirect(url_for("search_results_rating"))
+    if filtro == 'titulo':  # listo
         return render_template(
-            "search_results.html",
-            moviesData=results,
+            "search_results_titulo.html",
             filterName=filtro
         )
-    if filtro == 'titulo':
+    if filtro == 'director':  # listo
         return render_template(
-            "search_results.html",
-            moviesData=results,
+            "search_results_director.html",
+            filterName=filtro
+        )
+    if filtro == 'distribuidor':  # listo
+        return render_template(
+            "search_results_distribuidor.html",
+            filterName=filtro
+        )
+    if filtro == 'genre':  # listo
+        return render_template(
+            "search_results_genre.html",
+            filterName=filtro
+        )
+    if filtro == 'mpaa':
+        return render_template(
+            "search_results_mpaa.html",
             filterName=filtro
         )
 
     results = movies.find()
 
     return render_template(
-        "search_results.html",
-        moviesData=results,
-        filterName=filtro
+        "filtrar.html",
+        filtro='none',
     )
 
 
-@app.route('/series_recommendations')
+@app.route("/search_results_mpaa")
+def search_results_mpaa():
+    movies = db.movies
+    query = request.args.get("q")
+    if query:
+        results = movies.find(
+            {"Title": {"$regex": query, "$options": "i"}})
+    else:
+        results = []
+    return render_template("search_results_mpaa.html",
+                           query=query,
+                           results=results
+                           )
+
+
+@app.route("/search_results_titulo")
+def search_results_titulo():
+    movies = db.movies
+    query = request.args.get("q")
+    if query:
+        results = movies.find(
+            {"Title": {"$regex": query, "$options": "i"}})
+    else:
+        results = []
+    return render_template("search_results_titulo.html",
+                           query=query,
+                           results=results
+                           )
+
+# Christopher Nolan
+
+
+@app.route("/search_results_director")
+def search_results_director():
+    movies = db.movies
+    query = request.args.get("q")
+    if query:
+        results = movies.find(
+            {"Director": {"$regex": query, "$options": "i"}})
+    else:
+        results = []
+    return render_template("search_results_director.html",
+                           query=query,
+                           results=results
+                           )
+
+# Lionsgate
+
+
+@app.route("/search_results_distribuidor")
+def search_results_distribuidor():
+    movies = db.movies
+    query = request.args.get("q")
+    if query:
+        results = movies.find(
+            {"Distributor": {"$regex": query, "$options": "i"}})
+    else:
+        results = []
+    return render_template("search_results_distribuidor.html",
+                           query=query,
+                           results=results
+                           )
+
+# Comedy
+# Major Genre
+
+
+@app.route("/search_results_genre")
+def search_results_genre():
+    movies = db.movies
+    query = request.args.get("q")
+    if query:
+        results = movies.find(
+            {"Major Genre": {"$regex": query, "$options": "i"}})
+    else:
+        results = []
+    return render_template("search_results_genre.html",
+                           query=query,
+                           results=results
+                           )
+
+
+@app.route("/search_results_rating")
+def search_results_rating():
+    movies = db.movies
+    query = request.args.get("q")
+    if query:
+        results = movies.find(
+            {"Major Genre": {"$regex": query, "$options": "i"}})
+        results = results.sort(
+            [("IMDB Rating", -1)]).limit(10)
+
+    else:
+        results = movies.find().sort(
+            [("IMDB Rating", -1)]).limit(10)
+    return render_template("search_results_rating.html",
+                           results=results
+                           )
+
+
+@app.route('/series_recommendations', methods=["GET", "POST"])
 def series_recommendations():
-    return render_template('series_recommendations.html')
-
-
-@app.route('/series_results', methods=['POST'])
-def series_results():
     selected_option = request.form['option']
     selected_field = request.form['field']
-
-    if selected_option == 'rating':
+    if request.method == "POST":
+        if selected_option == 'rating':
+            pipeline = [
+                {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
+                {'$lookup': {'from': 'series', 'localField': '_id',
+                             'foreignField': '_id', 'as': 'show'}},
+                {'$unwind': '$show'},
+                {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
+                {'$sort': {'averageRating': -1}}
+            ]
+        elif selected_option == 'visualizations':
+            pipeline = [
+                {'$group': {'_id': '$show_id', 'averageVisualizations': {
+                    '$avg': '$visualizations'}}},
+                {'$lookup': {'from': 'series', 'localField': '_id',
+                             'foreignField': '_id', 'as': 'show'}},
+                {'$unwind': '$show'},
+                {'$project': {'_id': 0, 'title': '$show.title',
+                              'averageVisualizations': 1}},
+                {'$sort': {'averageVisualizations': -1}}
+            ]
+        elif selected_option == 'mpaa':
+            pipeline = [
+                {'$match': {'MPAA Rating': selected_field}},
+                {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
+                {'$lookup': {'from': 'series', 'localField': '_id',
+                             'foreignField': '_id', 'as': 'show'}},
+                {'$unwind': '$show'},
+                {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
+                {'$sort': {'averageRating': -1}}
+            ]
+    else:
         pipeline = [
             {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
             {'$lookup': {'from': 'series', 'localField': '_id',
@@ -181,30 +317,9 @@ def series_results():
             {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
             {'$sort': {'averageRating': -1}}
         ]
-    elif selected_option == 'visualizations':
-        pipeline = [
-            {'$group': {'_id': '$show_id', 'averageVisualizations': {
-                '$avg': '$visualizations'}}},
-            {'$lookup': {'from': 'series', 'localField': '_id',
-                         'foreignField': '_id', 'as': 'show'}},
-            {'$unwind': '$show'},
-            {'$project': {'_id': 0, 'title': '$show.title', 'averageVisualizations': 1}},
-            {'$sort': {'averageVisualizations': -1}}
-        ]
-    elif selected_option == 'mpaa':
-        pipeline = [
-            {'$match': {'MPAA Rating': selected_field}},
-            {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
-            {'$lookup': {'from': 'series', 'localField': '_id',
-                         'foreignField': '_id', 'as': 'show'}},
-            {'$unwind': '$show'},
-            {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
-            {'$sort': {'averageRating': -1}}
-        ]
-
     results = list(episodes.aggregate(pipeline))
 
-    return render_template('series_results.html', results=results)
+    return render_template('series_recommendations.html', results=results)
 
 
 if __name__ == "__main__":

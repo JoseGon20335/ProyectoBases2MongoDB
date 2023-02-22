@@ -8,33 +8,23 @@
             <div class="row my-4">
                 <div class="col-lg-3 col-sm-6 my-4">
                     <div class="cuadro-movies">
-                        <a class="button" href="{{ url_for('search', filtro='rating') }}">rating</a>
+                        <a class="button" href="{{ url_for('filtrar', filtro='ratingGenre') }}">Genre for rating</a>
                     </div>
                     <div class="cuadro-movies">
-                        <a class="button" href="{{ url_for('search', filtro='titulo') }}">titulo</a>
+                        <a class="button" href="{{ url_for('filtrar', filtro='titulo') }}">Titulo</a>
                     </div>
                     <div class="cuadro-movies">
-                        <a class="button" href="{{ url_for('search', filtro='director') }}">director</a>
+                        <a class="button" href="{{ url_for('filtrar', filtro='director') }}">Director</a>
                     </div>
                     <div class="cuadro-movies">
-                        <a class="button" href="{{ url_for('search', filtro='distributor') }}">distributor</a>
+                        <a class="button" href="{{ url_for('filtrar', filtro='distribuidor') }}">Distributor</a>
                     </div>
                     <div class="cuadro-movies">
-                        <a class="button" href="{{ url_for('search', filtro='genre') }}">genre</a>
+                        <a class="button" href="{{ url_for('filtrar', filtro='genre') }}">Genre</a>
                     </div>
                     <div class="cuadro-movies">
-                        <a class="button" href="{{ url_for('search', filtro='mpaa') }}">mpaa</a>
+                        <a class="button" href="{{ url_for('filtrar', filtro='mpaa') }}">MPAA</a>
                     </div>
-                </div>
-                <div class="row">
-                    {% for movies in moviesData %}
-                            <div class="col-lg-3 col-sm-6 my-4">
-                                <div class="cuadro-movies">
-                                    <h3>{{movies.Title}}</h3>
-                                    <a class="button" href="{{ url_for('pelicula', id=movies._id) }}">INFO</a>
-                                </div>
-                            </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>
