@@ -280,16 +280,34 @@ def search_results_rating():
 def bulk():
     db = client.get_database("moviesDB")
 
-    collection = db.movies
+    collection1 = db.movies
+    collection2 = db.series
+    collection3 = db.episodes
 
-    #with open('C:\Users\josem\OneDrive\Documents\GitHub\ProyectoBases2MongoDB\movies.json') as f:
-    with open('./backup/movies_alpha.json') as f:
+    with open('./backup/movies.json', encoding='utf-8') as f:
         print(f)
         data = json.load(f)
 
     # Insert data into MongoDB
-    result = db.my_collection.insert_many(data)
-    return redirect(url_for("index"))
+    requests = [InsertOne(doc) for doc in data]
+    result = collection1.bulk_write(requests)
+
+    with open('./backup/series.json', encoding='utf-8') as f:
+        print(f)
+        data = json.load(f)
+
+    # Insert data into MongoDB
+    requests = [InsertOne(doc) for doc in data]
+    result = collection2.bulk_write(requests)
+
+    with open('./backup/episodes.json', encoding='utf-8') as f:
+        print(f)
+        data = json.load(f)
+
+    # Insert data into MongoDB
+    requests = [InsertOne(doc) for doc in data]
+    result = collection3.bulk_write(requests)
+
 
 
 @app.route('/series_recommendations', methods=["GET", "POST"])
