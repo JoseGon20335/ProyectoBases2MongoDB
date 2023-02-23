@@ -47,7 +47,7 @@ label{
 
 .menu-link:hover{
     text-decoration: none!important;
-    color: #EAAB23!important;
+    color: #880808!important;
 }
 
 .cuadro-movies{
@@ -110,10 +110,10 @@ label{
 
 .hero form button:hover{
     color: #fff;
-    border: 1px solid #EAAB23;
+    border: 1px solid #880808;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    background-color: #EAAB23;
+    background-color: #880808;
 }
 
 .hero-squares{
@@ -135,7 +135,7 @@ label{
 
 .hero-squares:hover{
     color: #FFF!important;
-    background-color: #EAAB23;
+    background-color: #880808;
     text-decoration: none;
     transform: translate(5px, 5px);
 }
@@ -163,8 +163,8 @@ label{
 
 .button:hover{
     color: #fff!important;
-    border: 1px solid #EAAB23;
-    background-color: #EAAB23;
+    border: 1px solid #880808;
+    background-color: #880808;
     text-decoration: none;
 }
 
@@ -175,8 +175,8 @@ label{
 
 .alert{
     color: #fff;
-    border: 1px solid #EAAB23;
-    background-color: #EAAB23;
+    border: 1px solid #880808;
+    background-color: #880808;
     border-radius: 10px;
 }
 
@@ -201,7 +201,7 @@ label{
 }
 
 .pagination .pagination_numbers a:hover{
-    color: #EAAB23;
+    color: #880808;
     text-decoration: none;
 }
 
@@ -231,7 +231,7 @@ label{
   
 /* Change background color of buttons on hover */
 .tab button:hover {
-    background-color: #EAAB23;
+    background-color: #880808;
     color: #fff;
 }
 
@@ -252,13 +252,13 @@ label{
   
 /* Change background color of buttons on hover */
 .tab a:hover {
-    background-color: #EAAB23;
+    background-color: #880808;
     color: #fff!important;
 }
   
 /* Create an active/current tablink class */
 .tab button.active {
-    background-color: #EAAB23;
+    background-color: #880808;
     color: #fff;
 }
   
