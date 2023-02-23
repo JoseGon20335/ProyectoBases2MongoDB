@@ -133,6 +133,10 @@ label{
     box-shadow: 2px 2px 2px 0.5px #ccc;
 }
 
+.add-pelicula{
+    color: #fff;
+}
+
 .hero-squares:hover{
     color: #FFF!important;
     background-color: #880808;
