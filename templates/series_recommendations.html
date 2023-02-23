@@ -14,10 +14,17 @@
       </select>
       <br><br>
       <label for="field">Choose a field:</label>
-      <select id="field" name="field">
+      <select id="field" name="field"><!--
         {% for option in field_options %}
           <option value="{{ option }}">{{ option }}</option>
-        {% endfor %}
+        {% endfor %}-->
+        <option value="TV-Y">TV-Y</option>
+        <option value="TV-Y7">TV-Y7</option>
+        <option value="TV-Y7-FV">TV-Y7-FV</option>
+        <option value="TV-G">TV-G</option>
+        <option value="TV-PG">TV-PG</option>
+        <option value="TV-14">TV-14</option>
+        <option value="TV-MA">TV-MA</option>
       </select>
       <br><br>
       <input type="submit" value="Get Recommendations">
