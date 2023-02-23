@@ -309,7 +309,6 @@ def bulk():
     result = collection3.bulk_write(requests)
 
 
-
 @app.route('/series_recommendations', methods=["GET", "POST"])
 def series_recommendations():
     selected_option = request.args.get('recommendation_type')
