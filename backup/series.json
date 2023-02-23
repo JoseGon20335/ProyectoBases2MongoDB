@@ -1,0 +1,71 @@
+[{
+  "_id": {
+    "$oid": "63eaf8f30df907c2b96d4237"
+  },
+  "title": "What If...?",
+  "year": 2021,
+  "rated": "TV-PG"
+},{
+  "_id": {
+    "$oid": "63eaf8f30df907c2b96d4231"
+  },
+  "title": "The Punisher",
+  "year": 2017,
+  "rated": "TV-MA"
+},{
+  "_id": {
+    "$oid": "63eaf8f30df907c2b96d4235"
+  },
+  "title": "WandaVision",
+  "year": 2021,
+  "rated": "TV-PG"
+},{
+  "_id": {
+    "$oid": "63eaf8f30df907c2b96d4239"
+  },
+  "title": "The Witcher",
+  "year": 2019,
+  "rated": "TV-MA"
+},{
+  "_id": {
+    "$oid": "63eaf8f30df907c2b96d4234"
+  },
+  "title": "The Falcon and the Winter Soldier",
+  "year": 2021,
+  "rated": "TV-14"
+},{
+  "_id": {
+    "$oid": "63eaf8f30df907c2b96d4230"
+  },
+  "title": "Daredevil",
+  "year": 2015,
+  "rated": "TV-MA"
+},{
+  "_id": {
+    "$oid": "63eaf8f30df907c2b96d4238"
+  },
+  "title": "Ms. Marvel",
+  "year": 2022,
+  "rated": "TV-PG"
+},{
+  "_id": {
+    "$oid": "63eaf8f30df907c2b96d4232"
+  },
+  "title": "Jessica Jones",
+  "year": 2015,
+  "rated": "TV-MA"
+},{
+  "_id": {
+    "$oid": "63eaf8f30df907c2b96d4233"
+  },
+  "title": "The Defenders",
+  "year": 2017,
+  "rated": "TV-MA"
+},{
+  "_id": {
+    "$oid": "63eaf8f30df907c2b96d4236"
+  },
+  "title": "Loki",
+  "year": 2021,
+  "rated": "TV-14"
+}]
