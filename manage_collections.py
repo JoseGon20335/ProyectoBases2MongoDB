@@ -19,7 +19,7 @@ collection1 = db.movies
 collection2 = db.series
 collection3 = db.episodes
 
-with open('C:\\Users\\josem\\OneDrive\\Documents\\GitHub\\ProyectoBases2MongoDB\\movies.json', encoding='utf-8') as f:
+with open('C:\\Users\\josem\\OneDrive\\Documents\\GitHub\\ProyectoBases2MongoDB\\backup\\movies.json', encoding='utf-8') as f:
     print(f)
     data = json.load(f)
 
@@ -27,7 +27,7 @@ with open('C:\\Users\\josem\\OneDrive\\Documents\\GitHub\\ProyectoBases2MongoDB\
 requests = [InsertOne(doc) for doc in data]
 result = collection1.bulk_write(requests)
 
-with open('C:\\Users\\josem\\OneDrive\\Documents\\GitHub\\ProyectoBases2MongoDB\\series.json', encoding='utf-8') as f:
+with open('C:\\Users\\josem\\OneDrive\\Documents\\GitHub\\ProyectoBases2MongoDB\\backup\\series.json', encoding='utf-8') as f:
     print(f)
     data = json.load(f)
 
@@ -35,7 +35,7 @@ with open('C:\\Users\\josem\\OneDrive\\Documents\\GitHub\\ProyectoBases2MongoDB\
 requests = [InsertOne(doc) for doc in data]
 result = collection2.bulk_write(requests)
 
-with open('C:\\Users\\josem\\OneDrive\\Documents\\GitHub\\ProyectoBases2MongoDB\\episodes.json', encoding='utf-8') as f:
+with open('C:\\Users\\josem\\OneDrive\\Documents\\GitHub\\ProyectoBases2MongoDB\\backup\\episodes.json', encoding='utf-8') as f:
     print(f)
     data = json.load(f)
 
