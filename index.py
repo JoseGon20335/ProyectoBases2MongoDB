@@ -332,9 +332,17 @@ def search_results_rating():
 def series_recommendations():
     selected_option = request.args.get('recommendation_type')
     selected_field = request.args.get('field')
-    series = db.series
+    #series = db.series
+    episodes = db.episodes
     if selected_option:
         if selected_option == 'rating':
+            # db.episodes.aggregate([ { 
+            # $group: { _id: "$show_id", averageRating: { $avg: "$rating" } } }, { 
+            # $lookup: { from: "series", localField: "_id", foreignField: "_id", as: "show" } }, { 
+            # $unwind: "$show" }, { 
+            # $project: { _id: 0, title: "$show.title", averageRating: 1 } }, { 
+            # $sort: { averageRating: -1 } } ])
+
             pipeline = [
                 {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
                 {'$lookup': {'from': 'series', 'localField': '_id',
@@ -343,8 +351,17 @@ def series_recommendations():
                 {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
                 {'$sort': {'averageRating': -1}}
             ]
+            
         elif selected_option == 'visualizations':
+            
+            # db.episodes.aggregate([ { 
+            # $group: { _id: "$show_id", averageVisualizations: { $avg: "$visualizations" } } }, { 
+            # $lookup: { from: "series", localField: "_id", foreignField: "_id", as: "show" } }, { 
+            # $unwind: "$show" }, { 
+            # $project: { _id: 0, title: "$show.title", averageVisualizations: 1 } }, { 
+            # $sort: { averageVisualizations: -1 } } ])
             pipeline = [
+
                 {'$group': {'_id': '$show_id', 'averageVisualizations': {
                     '$avg': '$visualizations'}}},
                 {'$lookup': {'from': 'series', 'localField': '_id',
@@ -354,7 +371,9 @@ def series_recommendations():
                               'averageVisualizations': 1}},
                 {'$sort': {'averageVisualizations': -1}}
             ]
+            
         elif selected_option == 'mpaa':
+            
             pipeline = [
                 {'$match': {'MPAA Rating': selected_field}},
                 {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
@@ -364,6 +383,20 @@ def series_recommendations():
                 {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
                 {'$sort': {'averageRating': -1}}
             ]
+            pipeline = [        
+                { '$lookup': { 'from': 'series', 'localField': 'show_id', 'foreignField': '_id', 'as': 'show' } },    
+                { '$unwind': '$show' },    { '$match': { 'show.rated': selected_field } },    
+                { '$group': { '_id': '$show_id', 'averageRating': { '$avg': '$rating' } } },    
+                { '$lookup': { 'from': 'series', 'localField': '_id', 'foreignField': '_id', 'as': 'show' } },    
+                { '$unwind': '$show' },    
+                { '$project': { '_id': 0, 'title': '$show.title', 'averageRating': 1 } },    
+                { '$sort': { 'averageRating': -1 } }
+                
+            ]
+
+
+                
+            
     else:
         pipeline = [
             {'$group': {'_id': '$show_id', 'averageRating': {'$avg': '$rating'}}},
@@ -372,8 +405,15 @@ def series_recommendations():
             {'$unwind': '$show'},
             {'$project': {'_id': 0, 'title': '$show.title', 'averageRating': 1}},
             {'$sort': {'averageRating': -1}}
+            
         ]
-    results = list(series.aggregate(pipeline))
+        
+    results = list(episodes.aggregate(pipeline))
+    
+    if len(results) == 0:
+        print("No results found")
+    
+    #print(results)
 
     return render_template('series_recommendations.html', results=results)
 
