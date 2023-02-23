@@ -23,7 +23,8 @@ db = client.get_database("moviesDB")
 
 collection1 = db.movies
 
-with open('movies.json') as f:
+with open('C:\Users\josem\OneDrive\Documents\GitHub\ProyectoBases2MongoDB\movies.json') as f:
+    print(f)
     data = json.load(f)
 
 # Insert data into MongoDB
