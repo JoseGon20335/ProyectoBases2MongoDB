@@ -7,8 +7,6 @@ import urllib.parse
 import pymongo
 import json
 
-username = urllib.parse.quote_plus("Proyecto1")
-password = urllib.parse.quote_plus("Proyecto1_02")
 
 client = MongoClient(
     f"mongodb+srv://admin:123@cluster0.jholt4h.mongodb.net/?retryWrites=true&w=majority",
@@ -25,10 +23,9 @@ db = client.get_database("moviesDB")
 
 collection1 = db.movies
 
-# open and read the JSON file
-with open("data\movies.json") as file:
-    data = json.load(file)
+with open('movies.json') as f:
+    data = json.load(f)
 
-# use the bulk_write method to perform a bulk insert
-bulk_insert = collection1.bulk_write(
-    [pymongo.InsertOne(record) for record in data])
+# Insert data into MongoDB
+result = db.my_collection.insert_many(data)
+print(f"Inserted {len(result.inserted_ids)} documents")
