@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from pymongo import MongoClient
+from pymongo import MongoClient, InsertOne
 from bson.objectid import ObjectId
 import json
 
