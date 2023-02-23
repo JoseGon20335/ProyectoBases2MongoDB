@@ -1,10 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-# from pymongo import MongoClient
-from pymongo import MongoClient
-import random
-import logging
-import urllib.parse
-import pymongo
+from pymongo import MongoClient, InsertOne
 import json
 
 
@@ -22,11 +16,29 @@ except Exception as e:
 db = client.get_database("moviesDB")
 
 collection1 = db.movies
+collection2 = db.series
+collection3 = db.episodes
 
-with open('C:\Users\josem\OneDrive\Documents\GitHub\ProyectoBases2MongoDB\movies.json') as f:
+with open('C:\\Users\\josem\\OneDrive\\Documents\\GitHub\\ProyectoBases2MongoDB\\movies.json', encoding='utf-8') as f:
     print(f)
     data = json.load(f)
 
 # Insert data into MongoDB
-result = db.my_collection.insert_many(data)
-print(f"Inserted {len(result.inserted_ids)} documents")
+requests = [InsertOne(doc) for doc in data]
+result = collection1.bulk_write(requests)
+
+with open('C:\\Users\\josem\\OneDrive\\Documents\\GitHub\\ProyectoBases2MongoDB\\series.json', encoding='utf-8') as f:
+    print(f)
+    data = json.load(f)
+
+# Insert data into MongoDB
+requests = [InsertOne(doc) for doc in data]
+result = collection2.bulk_write(requests)
+
+with open('C:\\Users\\josem\\OneDrive\\Documents\\GitHub\\ProyectoBases2MongoDB\\episodes.json', encoding='utf-8') as f:
+    print(f)
+    data = json.load(f)
+
+# Insert data into MongoDB
+requests = [InsertOne(doc) for doc in data]
+result = collection3.bulk_write(requests)
