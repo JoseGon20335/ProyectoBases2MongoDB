@@ -282,7 +282,8 @@ def bulk():
 
     collection = db.movies
 
-    with open('C:\Users\josem\OneDrive\Documents\GitHub\ProyectoBases2MongoDB\movies.json') as f:
+    #with open('C:\Users\josem\OneDrive\Documents\GitHub\ProyectoBases2MongoDB\movies.json') as f:
+    with open('./backup/movies_alpha.json') as f:
         print(f)
         data = json.load(f)
 
